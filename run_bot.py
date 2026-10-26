@@ -1,50 +1,33 @@
 #!/usr/bin/env python3
-"""
-Script para executar o bot de live
-Execute este arquivo para iniciar o bot
-"""
+"""Ponto de entrada do bot: valida a configuração antes de iniciar."""
 
 import sys
 import os
 
-# Adicionar o diretório atual ao path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 try:
     from bot import LiveBot
-    
-    print("🤖 Iniciando Bot de Live...")
-    print("📋 Verificando configurações...")
-    
-    # Verificar se o token está configurado
     from config import BOT_TOKEN, CONTACTS_GROUP_ID
-    
-    if BOT_TOKEN == "SEU_BOT_TOKEN_AQUI":
-        print("❌ ERRO: Configure o BOT_TOKEN no arquivo config.py")
-        print("📝 Edite o arquivo config.py e adicione seu token do bot")
+
+    if BOT_TOKEN in ("SEU_TOKEN_AQUI", "SEU_BOT_TOKEN_AQUI"):
+        print("ERRO: configure o BOT_TOKEN no arquivo config.py")
         sys.exit(1)
-    
+
     if CONTACTS_GROUP_ID == -1001234567890:
-        print("⚠️  AVISO: Configure o CONTACTS_GROUP_ID no arquivo config.py")
-        print("📝 Edite o arquivo config.py e adicione o ID do grupo de contatos")
-    
-    print("✅ Configurações OK!")
-    print("🚀 Iniciando bot...")
-    print("💡 Use Ctrl+C para parar o bot")
-    print("-" * 50)
-    
-    # Iniciar o bot
+        print("AVISO: CONTACTS_GROUP_ID ainda está com o valor de exemplo em config.py")
+
+    print("Iniciando bot (Ctrl+C para parar)...")
+
     bot = LiveBot()
     bot.run()
-    
+
 except KeyboardInterrupt:
-    print("\n🛑 Bot interrompido pelo usuário")
-    print("👋 Até logo!")
-    
+    print("\nBot interrompido.")
+
 except ImportError as e:
-    print(f"❌ ERRO: Dependência não encontrada: {e}")
-    print("📦 Execute: pip install -r requirements.txt")
-    
+    print(f"ERRO: dependência ou config.py não encontrado: {e}")
+    print("Execute: pip install -r requirements.txt e copie config.example.py para config.py")
+
 except Exception as e:
-    print(f"❌ ERRO: {e}")
-    print("🔧 Verifique as configurações e tente novamente")
+    print(f"ERRO: {e}")
